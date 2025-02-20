@@ -1,0 +1,42 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}
+  Complaints | Nova Hardware Complaint Management System
+{% endblock %}
+{% block content %}
+  <h1>Add / Update Complaint</h1>
+  <br />
+  <form method="POST" class="needs-validation">
+    {% csrf_token %}
+
+    <div class="mb-3">{{ form.as_p }}</div>
+
+    <div class="d-flex justify-content-between align-items-center">
+      <button type="submit" class="btn btn-primary">Submit</button>
+
+      {% if delete_button %}
+        <button type="submit" name="delete" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this complaint?');">Delete</button>
+      {% endif %}
+    </div>
+  </form>
+{% endblock %}
+
+{% block script %}
+<script>
+  $(document).ready(function () {
+    function toggleOutsourcingFields() {
+      if ($('#id_out_sourced').is(':checked')) {
+        $('#id_out_sourced_to, #id_out_sourced_expense').prop('disabled', false)
+      } else {
+        $('#id_out_sourced_to, #id_out_sourced_expense').prop('disabled', true)
+      }
+    }
+  
+    // Run on page load (to handle pre-checked state)
+    toggleOutsourcingFields()
+  
+    // Run when 'Outsourced' checkbox changes
+    $('#id_out_sourced').change(toggleOutsourcingFields)
+  })
+</script>
+{% endblock %}

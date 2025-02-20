@@ -1,0 +1,31 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}
+  All Items|NCMS
+{% endblock %}
+{% block content %}
+  <div>
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>All places' List</h2> 
+      {% include 'home/search.html' %}
+      <a href="{% url 'complaint:add_place' %}" class="nova-primary-button">Add Place</a>
+    </div>
+
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">Place</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for place in place %}
+          <tr style="cursor:pointer;" onclick="window.location.href='{% url 'complaint:update_and_delete_place' place.id %}'">
+            <td scope="row">{{ forloop.counter }}</td>
+            <td>{{ place.name }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+{% endblock %}

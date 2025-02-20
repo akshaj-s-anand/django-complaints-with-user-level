@@ -1,0 +1,75 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}
+  List of Users
+{% endblock %}
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center">
+    <h2>Users Complaints</h2>
+    {% include 'home/search.html' %}
+    <a href="{% url 'userhandle:user_create' %}" class="nova-primary-button">Create User</a>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>#</th>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Groups</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for user in users %}
+        <tr onclick="window.location.href='{% url 'userhandle:user_update' user.id %}'" style="cursor: pointer;">
+          <td>{{ forloop.counter }}</td>
+          <td>{{ user.username }}</td>
+          <td>{{ user.email }}</td>
+          <td>
+            {% for group in user.groups.all %}
+              {{ group.name }}{% if not forloop.last %}, {% endif %}
+            {% empty %}
+              No groups
+            {% endfor %}
+          </td>
+          <td>
+            <a href="{% url 'userhandle:customer_complaints' pk=user.pk %}"><img src="{% static '/svg/view.svg' %}" alt=""></a><br>
+            {% if user.service_center_location %}<a href="{{user.service_center_location}}"><img src="{% static '/svg/map.svg' %}" alt=""></a>{% endif %}
+            
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="4">No users found.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if is_paginated %}
+    <nav>
+      <ul class="pagination">
+        {% if users.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page=1">&laquo; First</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ users.previous_page_number }}">Previous</a>
+          </li>
+        {% endif %}
+        <li class="page-item disabled">
+          <span class="page-link">Page {{ users.number }} of {{ users.paginator.num_pages }}</span>
+        </li>
+        {% if users.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ users.next_page_number }}">Next</a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ users.paginator.num_pages }}">Last &raquo;</a>
+          </li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+{% endblock %}
+

@@ -1,0 +1,45 @@
+{% extends 'home/base.html' %}
+{% load static %}
+{% block title %}
+  Complaints of {{customer}} | User Management
+{% endblock %}
+
+{% block content %}
+  <div class="d-flex justify-content-between align-items-center">
+    <h2> Complaints of <span style="text-transform: capitalize;">{{customer}}</span></h2>
+    <a href="{% url 'complaint:add_complaint' %}" class="nova-primary-button">Add a Complaint</a>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Customer</th>
+        <th scope="col">item</th>
+        <th scope="col">Phone Number</th>
+        <th scope="col">Assigned to</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% if complaints %}
+            {% for complaint in complaints %}
+            <tr style="cursor:pointer;" onclick="window.location.href='{% url 'complaint:update_or_delete_complaint' complaint.id %}'">
+                <td scope="row">{{ forloop.counter }}</td>
+                <td>{{ complaint.customer.username }}</td>
+                <td>{{ complaint.item.name }}</td>
+                <td>{{ complaint.phone_number }}</td>
+                <td>{{ complaint.assigned_to.username }}</td>
+            </tr>
+            {% endfor %}
+        {% else %}
+            <tr>
+                <td colspan="5" class="text-center">No complaints available.</td>
+            </tr>
+        {% endif %}
+    </tbody>
+    
+  </table>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

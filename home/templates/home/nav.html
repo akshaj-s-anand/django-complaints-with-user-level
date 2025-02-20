@@ -1,0 +1,21 @@
+{% load static %}
+<nav>
+  <ul class="nav flex-column mt-5">
+    <a class="nova-nav-link no-text-mobile" href="{% url 'home:home' %}"><li class="nav-item p-2 d-flex"> <img src="{% static '/svg/home-white.svg' %}" alt="" class="pe-3"> Home</li></a>
+
+    <a class="nova-nav-link no-text-mobile" href="{% url 'userhandle:users_list' %}"><li class="nav-item p-2 d-flex"><img src="{% static '/svg/user-white.svg' %}" alt="" class="pe-3"> Users</li></a>
+
+    <a class="nova-nav-link no-text-mobile" href="{% url 'complaint:view_complaints' %}"><li class="nav-item p-2 d-flex"><img src="{% static '/svg/complaint.svg' %}" alt="" class="pe-3"> Complaints</li></a>
+    <hr />
+    <a class="nova-nav-link no-text-mobile" href="{% url 'complaint:assigned_complaints' %}"><li class="nav-item p-2 d-flex"><img src="{% static '/svg/mycomplaint.svg' %}" alt="" class="pe-3"> My Complaints</li></a>
+
+    <a class="nova-nav-link no-text-mobile" href="{% url 'complaint:complaint_assigned_to_vendors' %}"><li class="nav-item p-2 d-flex"><img src="{% static '/svg/vendorcomplaint.svg' %}" alt="" class="pe-3"> Complaints with Vendors</li></a>
+    <hr />
+    <a class="nova-nav-link no-text-mobile" href="{% url 'complaint:list_item' %}"><li class="nav-item p-2 d-flex"><img src="{% static '/svg/item.svg' %}" alt="" class="pe-3"> Items</li></a>
+
+    <a class="nova-nav-link no-text-mobile" href="{% url 'complaint:list_place' %}"><li class="nav-item p-2 d-flex"><img src="{% static '/svg/palce.svg' %}" alt="" class="pe-3"> Place</li></a>
+
+    <hr />
+    <a class="nova-nav-link no-text-mobile" href="{% url "report:complaints_chart" %}"><li class="nav-item p-2 d-flex"> <img src="{% static '/svg/report.svg' %}" alt="" class="pe-3"> Report</li></a>
+  </ul>
+</nav>
