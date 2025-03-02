@@ -12,16 +12,16 @@ from userhandle.decorators import allowed_users
 @login_required
 @allowed_users(allowed_roles=['Admin', 'Staff'])
 def view_complaints(request):
-    
+
     complaints = Complaint.objects.all()
-    
+
     context = {
-        
-        'complaints':complaints,
-               
-        }
-    
-    
+
+        'complaints': complaints,
+        'complaint_active': True,
+
+    }
+
     return render(request, 'complaint/view_complaints.html', context)
 
 
@@ -34,13 +34,18 @@ def add_complaint(request):
             complaint = form.save(commit=False)
             complaint.save()
             messages.success(request, 'Complaint added successfully!')
-            return redirect(reverse('complaint:view_complaints'))  # Redirect instead of render
+            # Redirect instead of render
+            return redirect(reverse('complaint:view_complaints'))
 
     else:
         form = ComplaintForm()
 
-    context = {'form': form}
+    context = {
+        'form': form,
+        'complaint_active': True,
+    }
     return render(request, 'complaint/add_and_update_complaint.html', context)
+
 
 @login_required
 @allowed_users(allowed_roles=['Admin', 'Staff'])
@@ -64,33 +69,50 @@ def update_and_delete_complaint(request, pk):
         'form': form,
         'complaint': complaint,
         'delete_button': True,
+        'complaint_active': True,
+
     }
 
     return render(request, 'complaint/add_and_update_complaint.html', context)
 
+
 @login_required
 @allowed_users(allowed_roles=['Admin', 'Staff'])
 def assigned_complaints(request):
-    complaints = Complaint.objects.filter(assigned_to=request.user)  # Filter assigned complaints
-    return render(request, 'complaint/my_complaints.html', {'complaints': complaints})
+    complaints = Complaint.objects.filter(
+        assigned_to=request.user)  # Filter assigned complaints
+    context = {
+        'complaints': complaints,
+        'my_complaints_active': True,
+    }
+
+    return render(request, 'complaint/my_complaints.html', context)
 
 
 @login_required
 @allowed_users(allowed_roles=['Admin', 'Staff'])
 def complaint_assigned_to_vendors(request):
     complaints = Complaint.objects.filter(out_sourced_to__isnull=False)
-    return render(request, 'complaint/complaint_assigned_to_vendors.html', {'complaints': complaints})
+
+    context = {
+        'complaints': complaints,
+        'vendor_complaints_active': True,
+    }
+
+    return render(request, 'complaint/complaint_assigned_to_vendors.html', context)
 
 
 @login_required
 @allowed_users(allowed_roles=['Admin', 'Staff'])
 def list_item(request):
     items = Item.objects.all()
-    
+
     context = {
-        'items':items, 
+        'items': items,
+        'item_active': True,
     }
     return render(request, 'complaint/list_item.html', context)
+
 
 @login_required
 @allowed_users(allowed_roles=['Admin', 'Staff'])
@@ -101,13 +123,18 @@ def add_item(request):
             items = form.save(commit=False)
             items.save()
             messages.success(request, 'Item created successfully!')
-            return redirect(reverse('complaint:list_item'))  # Redirect instead of render
+            # Redirect instead of render
+            return redirect(reverse('complaint:list_item'))
 
     else:
         form = ItemForm()
 
-    context = {'form': form}
+    context = {
+        'form': form,
+        'item_active': True,
+    }
     return render(request, 'complaint/add_and_update_item.html', context)
+
 
 @login_required
 @allowed_users(allowed_roles=['Admin', 'Staff'])
@@ -133,19 +160,23 @@ def update_and_delete_item(request, pk):
         'form': form,
         'items': items,
         'delete_button': True,
+        'item_active': True,
     }
 
     return render(request, 'complaint/add_and_update_item.html', context)
+
 
 @login_required
 @allowed_users(allowed_roles=['Admin', 'Staff'])
 def list_place(request):
     place = Place.objects.all()
-    
+
     context = {
-        'place':place, 
+        'place': place,
+        'place_active': True,
     }
     return render(request, 'complaint/list_place.html', context)
+
 
 @login_required
 @allowed_users(allowed_roles=['Admin', 'Staff'])
@@ -156,13 +187,19 @@ def add_place(request):
             place = form.save(commit=False)
             place.save()
             messages.success(request, 'Place created successfully!')
-            return redirect(reverse('complaint:list_place'))  # Adjusted for places
+            # Adjusted for places
+            return redirect(reverse('complaint:list_place'))
 
     else:
         form = PlaceForm()
 
-    context = {'form': form}
-    return render(request, 'complaint/add_and_update_place.html', context)  # Updated template name
+    context = {
+        'form': form,
+        'place_active': True,
+    }
+    # Updated template name
+    return render(request, 'complaint/add_and_update_place.html', context)
+
 
 @login_required
 @allowed_users(allowed_roles=['Admin', 'Staff'])
@@ -188,7 +225,7 @@ def update_and_delete_place(request, pk):
         'form': form,
         'place': place,
         'delete_button': True,
+        'place_active': True,
     }
 
     return render(request, 'complaint/add_and_update_place.html', context)
-

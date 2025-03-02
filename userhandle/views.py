@@ -24,6 +24,13 @@ class UserListView(ListView):
         # Exclude superusers from the queryset
         return CustomUser.objects.filter(is_superuser=False)
 
+    def get_context_data(self, **kwargs):
+        # Get the default context
+        context = super().get_context_data(**kwargs)
+        # Add custom context
+        context['user_active'] = True
+        return context
+
 @allowed_users(allowed_roles=['Admin', 'Staff'])
 @login_required
 def user_create(request):
@@ -41,8 +48,13 @@ def user_create(request):
             return redirect(reverse_lazy('userhandle:users_list'))
     else:
         form = UserCreateForm()
+    
+    
+    context = {
+        'form': form, 'user_active':True, 
+    }
 
-    return render(request, 'userhandle/user_form.html', {'form': form})
+    return render(request, 'userhandle/user_form.html',context)
     
 @allowed_users(allowed_roles=['Admin', 'Staff'])    
 @login_required
@@ -66,8 +78,12 @@ def user_update(request, user_id):
             return redirect(reverse_lazy('userhandle:users_list'))
     else:
         form = UserUpdateForm(instance=user)
+        
+        context = {
+        'form': form, 'user_active':True, 
+    }
 
-    return render(request, 'userhandle/update_user.html', {'form': form})
+    return render(request, 'userhandle/update_user.html', context)
 
 @allowed_users(allowed_roles=['Admin', 'Staff'])
 @login_required
@@ -82,6 +98,7 @@ def customer_complaints(request, pk):
     context = {
         'complaints': complaints,
         'customer': customer,
+        'user_active':True, 
     }
 
     # Render the template with the context

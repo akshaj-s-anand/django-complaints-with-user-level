@@ -1,0 +1,74 @@
+{% load static %}
+<style>
+    .weather-container {
+      background-color: white;
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 100%;
+      text-align: center;
+      display:flex;
+      align-items:center;
+      gap:10px;
+      justify-content:space-between;
+      margin-bottom:20px;
+      background-image:url({% static 'images/waeather.jpeg' %});
+      background-repeat: no-repeat;
+      background-position: center;  
+      background-size: cover;
+      background-blend-mode: luminosity;
+    }
+    .weather-container h1 {
+      font-size: 2.2rem;
+      margin-bottom: 15px;
+      color: white;
+    }
+    .weather-icon {
+      font-size: 3rem;
+      color: white;
+      margin-bottom: 10px;
+    }
+    .temperature {
+      font-size: 3rem;
+      font-weight: 600;
+      color: white;
+      margin: 10px 0;
+    }
+    .weather-details p {
+      font-size: 1rem;
+      margin: 10px 0;
+      color: white;
+    }
+    .weather-details strong {
+      font-weight: 600;
+    }
+    .weather-info {
+      font-size: 0.9rem;
+      margin-top: 15px;
+      color: white;
+    }
+    .weather-info p {
+      margin: 5px 0;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="weather-container">
+    <h1>{{ weather_info.location }}</h1>
+    <div class="weather-icon">
+      <i class="fas fa-sun"></i> <!-- Example for sunny weather, you can change based on the description -->
+    </div>
+    <div class="temperature">
+      {{ weather_info.temperature }}°C
+    </div>
+    <div class="weather-details">
+      <p><strong>Humidity:</strong> {{ weather_info.humidity }}%</p>
+      <p><strong>Wind Speed:</strong> {{ weather_info.wind_speed }} m/s</p>
+      <p><strong>Description:</strong> {{ weather_info.description }}</p>
+    </div>
+    <div class="weather-info">
+      <p><strong>Latitude:</strong> {{ weather_info.latitude }}</p>
+      <p><strong>Longitude:</strong> {{ weather_info.longitude }}</p>
+    </div>
+  </div>

@@ -1,0 +1,68 @@
+{% extends 'home/base.html' %}
+{% block content %}
+  <div class="row report-gap">
+    <h3 class="text-center h3 mt-2 mb-4">Total Report</h3>
+    <div class="col-3 shadow d-flex justify-content-center align-items-center flex-column report-gap py-3 rounded">
+      <h2>{{ total_complaints }}</h2>
+      <p>Total Complaints</p>
+    </div>
+
+    <div class="col-3 shadow d-flex justify-content-center align-items-center flex-column report-gap py-3 rounded">
+      <h2>{{ total_users }}</h2>
+      <p>Total Users</p>
+    </div>
+
+    <div class="col-3 shadow d-flex justify-content-center align-items-center flex-column report-gap py-3 rounded">
+      <h2>{{ total_staffs }}</h2>
+      <p>Total Staffs</p>
+    </div>
+
+    <div class="col-3 shadow d-flex justify-content-center align-items-center flex-column report-gap py-3 rounded">
+      <h2>{{ total_customers }}</h2>
+      <p>Total Customers</p>
+    </div>
+
+    <div class="col-3 shadow d-flex justify-content-center align-items-center flex-column report-gap py-3 rounded">
+      <h2>{{ total_customers }}</h2>
+      <p>Total Service Centers</p>
+    </div>
+  </div>
+
+  <hr style="color: white;">
+  <div class="row report-gap">
+    <h3 class="text-center h3 mt-2 mb-4">Report in 30 days</h3>
+    <div class="col-3 shadow d-flex justify-content-center align-items-center flex-column report-gap py-3 rounded">
+      <h2>{{ new_users }}</h2>
+      <p>New Users [30 days]</p>
+    </div>
+    <div class="col-3 shadow d-flex justify-content-center align-items-center flex-column report-gap py-3 rounded">
+      <h2>{{ new_complaints }}</h2>
+      <p>New Complaints [30 days]</p>
+    </div>
+    <div class="col-3 shadow d-flex justify-content-center align-items-center flex-column report-gap py-3 rounded">
+      <h2>{{ complaints_with_service_centers_status_none }}</h2>
+      <p>Complaints with service center</p>
+    </div>
+  </div>
+
+  <hr style="color: white;">
+  <h3 class="text-center h3 mt-2 mb-4">Current status Report</h3>
+  <div class="row report-gap">
+    <div class="col-3 shadow d-flex justify-content-center align-items-center flex-column report-gap py-3 rounded">
+      <h2>{{ complaints_with_status_none }}</h2>
+      <p>Complaints To resolve</p>
+    </div>
+    <div class="col-3 shadow d-flex justify-content-center align-items-center flex-column report-gap py-3 rounded">
+      <h2>{{ return_complaints }}</h2>
+      <p>Returned Complaints</p>
+    </div>
+    <div class="col-3 shadow d-flex justify-content-center align-items-center flex-column report-gap py-3 rounded">
+      <h2>{{ completed_with_issues }}</h2>
+      <p>Returned with issue</p>
+    </div>
+    <div class="col-3 shadow d-flex justify-content-center align-items-center flex-column report-gap py-3 rounded">
+      <h2>{{ completed_complaints }}</h2>
+      <p>Completed</p>
+    </div>
+  </div>
+{% endblock %}

@@ -11,7 +11,7 @@
       <a href="{% url 'complaint:add_complaint' %}" class="nova-primary-button">Add Complaint</a>
     </div>
 
-    <table class="table table-striped">
+    <table class="table table-striped mt-4">
       <thead>
         <tr>
           <th scope="col">#</th>
@@ -19,6 +19,7 @@
           <th scope="col">item</th>
           <th scope="col">Phone Number</th>
           <th scope="col">Assigned to</th>
+          <th scope="col">Status</th>
         </tr>
       </thead>
       <tbody>
@@ -29,9 +30,33 @@
             <td>{{ complaints.item.name }}</td>
             <td>{{ complaints.phone_number }}</td>
             <td>{{ complaints.assigned_to.username }}</td>
+            <td>
+              <p class="status" style="text-transform: capitalize;">{{ complaints.final_status }}</p>
+          </td>
           </tr>
         {% endfor %}
       </tbody>
     </table>
   </div>
 {% endblock %}
+{% block script %}
+<script>
+  // Get all status elements
+  const statuses = document.querySelectorAll('.status');
+  
+  // Loop through each status element and apply the appropriate class
+  statuses.forEach(status => {
+    if (status.innerHTML.trim() === 'None') {
+      status.classList.add('status-none');
+    } else if (status.innerHTML.trim() === 'return') {
+      status.classList.add('status-return');
+    } else if (status.innerHTML.trim() === 'completed with issues') {
+      status.classList.add('status-issue');
+    } else if (status.innerHTML.trim() === 'completed') {
+      status.classList.add('status-completed');
+    } else {
+      status.innerHTML = 'Error';
+    }
+  });
+</script>
+  {% endblock %}

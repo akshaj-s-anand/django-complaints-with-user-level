@@ -1,35 +1,59 @@
 from django.shortcuts import render
-from django.http import JsonResponse
 from complaint.models import Complaint
-import datetime
-from django.db.models import Sum, Count, Q
+from complaint.models import Complaint
 from userhandle.decorators import allowed_users
+from django.contrib.auth import get_user_model
+from django.contrib.auth.models import Group
+from django.utils import timezone
+from datetime import timedelta
+
+users = get_user_model()
+
 
 @allowed_users(allowed_roles=['Admin'])
-def complaints_chart(request):
-    """ Renders the template with the chart """
-    return render(request, 'report/complaints_chart.html')
+def complaint_filter_view(request):
+    
+    now = timezone.now()
+    thiry_days_ago = now - timedelta(days=30)
+    
+    # Start with all complaints
+    total_complaints = Complaint.objects.count()
+    total_users = users.objects.count()
+    staff_group = Group.objects.get(name='Staff')
+    admin_group = Group.objects.get(name='Admin')
+    customer_group = Group.objects.get(name='Customer')
+    service_center_group = Group.objects.get(name='Service Center')
+    total_staffs = staff_group.user_set.count()
+    total_admin = admin_group.user_set.count()
+    total_customers = customer_group.user_set.count()
+    total_service_centers = service_center_group.user_set.count()
+    
+    new_users = users.objects.filter(date_joined__gte = thiry_days_ago).count()
+    new_complaints = Complaint.objects.filter(appointment_date__gte = thiry_days_ago).count()
+    
+    complaints_with_service_centers_status_none = Complaint.objects.filter(out_sourced=True, final_status__isnull = True).count()
+    complaints_with_status_none = Complaint.objects.filter(final_status__isnull = True).count()
+    return_complaints = Complaint.objects.filter(final_status = 'return').count()
+    completed_with_issues = Complaint.objects.filter(final_status = 'completed with issues').count()
+    completed_complaints = Complaint.objects.filter(final_status = 'completed').count()
 
-
-@allowed_users(allowed_roles=['Admin'])
-def get_complaints_data(request):
-    """ API to fetch complaints data based on a date range """
-
-    start_date = request.GET.get('appointment_date')
-    end_date = request.GET.get('end_date')
-
-    # If no date range is provided, use the last 7 days by default
-    if not start_date or not end_date:
-        end_date = datetime.date.today()
-        start_date = end_date - datetime.timedelta(days=7)
-
-    complaints = Complaint.objects.filter(appointment_date__range=[start_date, end_date])
-
-    # Group by date
-    data = complaints.values('appointment_date').annotate(
-        total_complaints=Count('id'),
-        outsourced_complaints=Count('id', filter=Q(out_sourced=True)),
-        total_bill=Sum('bill_amount', default=0)
-    ).order_by('appointment_date')
-
-    return JsonResponse(list(data), safe=False)
+    # Render the page with the form and complaints
+    context = {
+        'total_complaints': total_complaints,
+        'total_users':total_users,
+        'total_staffs':total_staffs,
+        'total_admin':total_admin,
+        'total_customers':total_customers,
+        'total_service_centers':total_service_centers,
+        
+        'new_users':new_users,
+        'new_complaints':new_complaints,
+        
+        'complaints_with_service_centers_status_none':complaints_with_service_centers_status_none,
+        'complaints_with_status_none':complaints_with_status_none,
+        'return_complaints':return_complaints,
+        'completed_with_issues':completed_with_issues,
+        'completed_complaints':completed_complaints,
+        
+    }
+    return render(request, 'report/report.html', context)

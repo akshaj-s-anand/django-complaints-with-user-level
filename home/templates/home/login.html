@@ -8,23 +8,53 @@
   </head>
   <body class="d-flex justify-content-center align-items-center">
     <style>
+      @import url('https://fonts.googleapis.com/css2?family=Diphylleia&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Maven+Pro:wght@400..900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
+
       body {
         height: 100vh;
+        font-family: "Poppins", serif;
+        background-color: #17484c;
       }
-      .form-control, .border{
-        border-radius: 0 !important;
-        border: 1px solid #000 !important;
+      .form-background{
+        background-color: #21656b;
+        color: white;
       }
+
+      ul {
+        list-style: none;
+        color: red;
+        font-size: x-large;
+      }
+      input{
+        border: 0px !important;
+        background-color:rgb(52, 138, 146);
+        
+      }
+      input:hover {
+        border: 0.5px solid aqua;
+        box-shadow: 0 0 8px aqua;
+        transition: box-shadow 0.3s ease-in-out;
+    }
+    
     </style>
-    <div class="container d-flex justify-content-center">
-      <div class="border p-5 w-25">
+    <div class="container d-flex justify-content-center flex-column align-items-center">
+      {% if messages %}
+        <ul class="messages">
+          {% for message in messages %}
+            <li class="{% if message.tags %}{{ message.tags }}{% endif %}">{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+      <div class="rounded shadow p-5 form-background">
         <form method="post">
-            {% csrf_token %}
+          {% csrf_token %}
           <h2 class="h2 text-center mb-4">Login</h2>
           <label for="username">Username</label>
-          <input type="text" name="username" id="username" class="form-control" />
+          <input type="text" name="username" id="username" class="form-control shadow" />
+          <br>
           <label for="password">Password</label>
-          <input type="password" name="password" id="password" class="form-control" />
+          <input type="password" name="password" id="password" class="form-control shadow" />
           <button class="btn btn-primary mt-3 w-100" type="submit">Login</button>
         </form>
       </div>

@@ -17,7 +17,7 @@
           <th scope="col">Customer</th>
           <th scope="col">Item</th>
           <th scope="col">Phone Number</th>
-          <th scope="col">Assigned to</th>
+          <th scope="col">Status</th>
         </tr>
       </thead>
       <tbody>
@@ -27,7 +27,9 @@
             <td>{{ complaint.customer.username }}</td>
             <td>{{ complaint.item.name }}</td>
             <td>{{ complaint.phone_number }}</td>
-            <td>{{ complaint.assigned_to.username }}</td>
+            <td>
+              <p class="status">{{ complaints.final_status }}</p>
+          </td>
           </tr>
         {% empty %}
           <tr>
@@ -38,3 +40,24 @@
     </table>
   </div>
 {% endblock %}
+{% block script %}
+<script>
+  // Get all status elements
+  const statuses = document.querySelectorAll('.status');
+  
+  // Loop through each status element and apply the appropriate class
+  statuses.forEach(status => {
+    if (status.innerHTML.trim() === 'None') {
+      status.classList.add('status-none');
+    } else if (status.innerHTML.trim() === 'return') {
+      status.classList.add('status-return');
+    } else if (status.innerHTML.trim() === 'completed with issues') {
+      status.classList.add('status-issue');
+    } else if (status.innerHTML.trim() === 'completed') {
+      status.classList.add('status-completed');
+    } else {
+      status.innerHTML = 'Error';
+    }
+  });
+</script>
+  {% endblock %}

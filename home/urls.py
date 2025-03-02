@@ -9,4 +9,6 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     path('no-permission/', views.permission_denied, name='permission_denied'),
     path('logs/', views.admin_logs, name='admin_logs'),
+    path('get-weather/', views.get_weather, name='get_weather'),
 ]
+

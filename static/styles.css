@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Diphylleia&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Maven+Pro:wght@400..900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap');
+
 :root{
     --nova-secondary-color:#252525;
     --nova-primary-color:#ffffff;
@@ -7,11 +9,65 @@
     --nova-normal-message: #4f67004f;
     --nova-succuess-color: #03421d53;
     --nova-success-text: #03421d;
+    --nova-background-color: linear-gradient(45deg, #c2e59c, #64b3f4);
+    --nova-canvas-background:#3e829b;
+    --status-none-bg:rgb(122, 122, 122);
+}
+body{
+    background: var(--nova-background-color) !important;
+    font-family: "Poppins", serif !important;
+}
+.canvas{
+    background: var(--nova-canvas-background);
+    color: var(--nova-primary-color);
 }
 h1, h2, h3, h4, h5, h6{
     margin: 0 !important;
     padding: 0;
 }
+th{
+    text-transform: capitalize;
+}
+
+/* scroll bar related styles */
+/* For WebKit browsers (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 6px;  /* Thin scrollbar */
+}
+
+::-webkit-scrollbar-track {
+    background:var(--nova-active-colornova-active-color);  /* Light background */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--nova-canvas-background);  /* Darker thumb */
+    border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #555;  /* Darker on hover */
+}
+.canvas::-webkit-scrollbar {
+    width: 6px; /* Thin scrollbar */
+}
+
+.canvas::-webkit-scrollbar-track {
+    background: #f1f1f1; /* Light background */
+    border-radius: 10px;
+}
+
+.canvas::-webkit-scrollbar-thumb {
+    background: #888; /* Darker thumb */
+    border-radius: 10px;
+}
+
+.canvas::-webkit-scrollbar-thumb:hover {
+    background: #555; /* Darker on hover */
+}
+
+
+
 .nova-secondary-color{
     color: var(--nova-primary-color);
     background-color: var(--nova-secondary-color);
@@ -29,7 +85,7 @@ h1, h2, h3, h4, h5, h6{
 .height-80vh{
     height: 80vh;
 }
-.nav-item:hover{
+.nav-item:hover, .nova-active{
     background-color: var(--nova-active-color);
     cursor: pointer;
 }
@@ -103,4 +159,32 @@ form ul{
 }
 .date-picker {
     margin: 20px;
+}
+.status-none{
+    background-color: var(--status-none-bg) !important;
+    color: black !important;
+}
+.status-return{
+    background-color: #e86261;
+    color: #670203;
+}
+.status-issue{
+    background-color: #dec45d;
+    color: #6b5704;
+}
+.status-completed{
+    background-color: #42d07f;
+    color: #0a8438;
+}
+.status{
+    font-weight: 700;
+    border-radius: 30px;
+    text-align: center;
+    margin-bottom: 0;
+}
+.report-gap{
+    gap:10px;
+}
+.report-gap p{
+    font-size: large;
 }
